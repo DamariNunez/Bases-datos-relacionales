@@ -1,0 +1,97 @@
+- CLIENTE: (codigo_cliente, cedula, nombre, apellido, email, telefono, direccion, usuario, contrasenia)
+
+  PK: {codigo_cliente}
+
+- RESERVACION: (codigo_reservacion, valor, fecha_retiro, fecha_entrega,comentario, tipo_kilometraje, estado_reservacion, codigo_cliente, codigo_vehiculo)
+  
+  Dominio estado_reservacion: [aceptado,cancelado]
+
+  Dominio tipo_kilometraje: [libre, controlado]
+
+  PK: {codigo_reservacion}
+
+  FK1: {RESERVACION.codigo_cliente -> CLIENTE.codigo_cliente}
+  
+  ¿Acepta nulos? No
+  
+  Borrado: Restringir
+
+  Modificado: Propagar
+  
+  FK2: {RESERVACION.codigo_vehiculo -> VEHICULO.codigo_vehiculo}
+  
+  ¿Acepta nulos? No
+  
+  Borrado: Restringir
+
+  Modificado: Propagar
+
+- VEHICULO: (codigo_vehiculo,marca,placa,modelo,color,tipo_combustible,numero_plazas,numero_puertas,kilometraje,costo_diario,estado_vehiculo,codigo_categoria,codigo_administrador)
+  
+  Dominio estado_vehiculo: [reservado,disponible]
+
+  Dominio tipo_combustible: [super,extra,diesel]
+
+  PK: {codigo_vehiculo}
+  
+  FK1: {VEHICULO.codigo_categoria -> CATEGORIA.codigo_categoria}
+    
+  ¿Acepta nulos? No
+  
+  Borrado: Restringir
+
+  Modificado: Propagar
+  
+  FK2: {VEHICULO.codigo_administrador -> ADMINISTRADOR.codigo_administrador}
+    
+  ¿Acepta nulos? No
+  
+  Borrado: Restringir
+
+- FICHA_MANTENIMIENTO: (codigo_mantenimiento, fecha, kilometraje, servicio, comentario, codigo_vehiculo)
+  
+  PK: {codigo_mantenimiento}
+
+  FK1: {FICHA_MANTENIMIENTO.codigo_vehiculo -> VEHICULO.codigo_vehiculo}
+    
+  ¿Acepta nulos? No
+  
+  Borrado: Restringir
+
+  Modificado: Propagar
+
+
+- CATEGORIA: (codigo_categoria, nombre, gama)
+
+  PK: {codigo_categoria} 
+
+
+- FACTURA_DETALLE: (codigo_factura_detalle, valor_total, valor_unitario, cantidad, descripcion, codigo_factura_encacebezado)
+
+  PK: {codigo_factura_detalle}
+
+  FK1: {FACTURA_DETALLE.codigo_factura_encabezado -> FACTURA_ENCABEZADO.codigo_factura_encacebzado}
+    
+  ¿Acepta nulos? No
+  
+  Borrado: Restringir
+
+  Modificado: Propagar
+
+
+- FACTURA_ENCABEZADO: (codigo_factura_encabezado, fecha, subtotal, iva, total, codigo_reservacion)
+  
+  PK: {codigo_enc}
+  
+  FK: {FACTURA_ENCABEZADO.codigo_reservacion -> RESERVACION.codigo_reservacion}
+    
+  �Acepta nulos? Si
+  
+  Borrado: Restringir
+
+  Modificado: Propagar
+
+
+- ADMINISTRADOR: (codigo_administrador, usuario, contrasenia, email)
+
+  PK: {codigo_administrador} 
